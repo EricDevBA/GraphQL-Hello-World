@@ -1,15 +1,21 @@
 const express = require('express')
 const { ApolloServer, gql } = require('apollo-server-express')
-const { graphql, buildSchema } = require('graphql')
 
-const schema = buildSchema(`
+const schema = gql(`
     type Query{
       olaMundo: String!
     }
 `)
 
-const resolver = {
-	olaMundo: () => 'Olá,Mundo! Nossa primeira consulta',
+const resolvers = {
+  Query:{
+     olaMundo: () => 'Olá,Mundo! Nossa primeira consulta',
+  }
 }
 
-graphql(schema, '{olaMundo}', resolver).then(resposta => console.log(resposta))
+const server = new ApolloServer({typeDefs: schema,resolvers})
+
+const app = express()
+server.applyMiddleware({app})
+
+app.listen({port:4000}, () => console.log(`Servidor rodando na porta localhost:4000/${server.graphqlPath}`));
