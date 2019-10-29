@@ -1,6 +1,6 @@
 const consulta = '{olaMundo}'
 
-const opcoes = {
+const opcoes = { // Enviando o request do tipo POST
 	method: 'POST',
 	headers: {
 		'Content-Type': 'application/JSON',
